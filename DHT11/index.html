@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IoT Dashboard — NodeMCU DHT11</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <h1>IoT Monitoring Dashboard</h1>
+      <p>NodeMCU ESP8266 + Sensor DHT11</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <div class="status-indicator"><div class="dot"></div><span id="device-status">Menunggu device...</span></div>
+      <span id="clock">--:--:--</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="metrics">
+      <div class="metric-card"><div class="label">🌡 Suhu</div><div class="value" id="temp-val" style="color:var(--coral)">--<span class="unit">°C</span></div></div>
+      <div class="metric-card"><div class="label">💧 Kelembapan</div><div class="value" id="hum-val" style="color:var(--blue)">--<span class="unit">%</span></div></div>
+      <div class="metric-card"><div class="label">🔥 Heat Index</div><div class="value" id="hi-val" style="color:var(--amber)">--<span class="unit">°C</span></div></div>
+      <div class="metric-card"><div class="label">📡 Pembacaan</div><div class="value" id="count-val" style="color:var(--green)">0</div></div>
+    </section>
+
+    <section class="two-col">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Grafik Real-time</span></div>
+        <div class="chart-wrap"><canvas id="mainChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Level Sensor</span></div>
+        <div class="gauges">
+          <div class="gauge-item"><div class="gauge-label"><span>Suhu</span><strong id="g-temp">--°C</strong></div><div class="gauge-track"><div class="gauge-fill" id="gf-temp" style="width:0%;background:var(--coral)"></div></div></div>
+          <div class="gauge-item"><div class="gauge-label"><span>Kelembapan</span><strong id="g-hum">--%</strong></div><div class="gauge-track"><div class="gauge-fill" id="gf-hum" style="width:0%;background:var(--blue)"></div></div></div>
+          <div class="gauge-item"><div class="gauge-label"><span>Heat Index</span><strong id="g-hi">--°C</strong></div><div class="gauge-track"><div class="gauge-fill" id="gf-hi" style="width:0%;background:var(--amber)"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bottom-row">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Riwayat Data</span><span id="hist-count" class="badge badge-ok">0 entri</span></div>
+        <table>
+          <thead><tr><th>Waktu</th><th>Suhu (°C)</th><th>Kelembapan (%)</th><th>Status</th></tr></thead>
+          <tbody id="hist-body"><tr><td colspan="4" style="text-align:center">Belum ada data</td></tr></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Statistik Sesi</span></div>
+        <div class="stats-grid">
+          <div class="stat-box"><div>Max Suhu</div><strong id="s-tmax" style="color:var(--coral)">--</strong></div>
+          <div class="stat-box"><div>Min Suhu</div><strong id="s-tmin" style="color:var(--blue)">--</strong></div>
+          <div class="stat-box"><div>Max Hum</div><strong id="s-hmax" style="color:var(--blue)">--</strong></div>
+          <div class="stat-box"><div>Min Hum</div><strong id="s-hmin" style="color:var(--green)">--</strong></div>
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 15px;">
+          <button class="download-btn" onclick="downloadCSV()" style="flex:1">📥 Unduh CSV</button>
+          <button class="reset-btn" onclick="resetData()" style="flex:1">🗑 Reset</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
