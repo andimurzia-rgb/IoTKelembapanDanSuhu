@@ -1,5 +1,5 @@
 /* ── Konfigurasi & State ──────────────────────────────────────────────── */
-const NODEMCU_IP = 'http://192.168.100.79';
+const NODEMCU_IP = 'http://10.113.214.150';
 let history = [];
 let count = 0;
 let stats = { tmax: -99, tmin: 99, hmax: -99, hmin: 99 };
